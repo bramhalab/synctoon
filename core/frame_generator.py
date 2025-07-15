@@ -10,9 +10,9 @@ import numpy as np
 # Assuming manager is defined and contains the get_character method
 # Replace manager.get_character with your own method to load character images
 base_path = (
-    "/home/oye/Documents/animation_software/2d-animation-v1/core/images/characters"
+    "./images/characters"
 )
-metadata_file = "/home/oye/Documents/animation_software/2d-animation-v1/core/images/metadata/metadata.json"
+metadata_file = "./images/metadata/metadata.json"
 manager = CharacterManager(base_path, metadata_file)
 frame_data = {"key_counter": {}, "frame_key": {}}
 mypath = "./video_frames"

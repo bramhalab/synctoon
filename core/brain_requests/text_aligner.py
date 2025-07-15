@@ -16,7 +16,7 @@ from .utils import retry
 
 
 class TextAnalyzer:
-    def __init__(self, api_key, model_name="gemini-pro", prompt_file=prompts):
+    def __init__(self, api_key, model_name="gemini-2.0-flash", prompt_file=prompts):
         self.api_key = api_key
         self.model_name = model_name
         self.prompt_file = prompt_file

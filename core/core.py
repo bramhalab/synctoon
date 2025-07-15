@@ -13,17 +13,17 @@ if __name__ == "__main__":
     files = [
         (
             "transcript",
-            "/home/oye/Documents/dailyYGStories/A Family Secret Almost Ruined My Wedding—Am I Wrong for Excluding My Brother?.txt",
+            "/home/oye/Downloads/2d-animation-v1/example/story/breakup.txt",
             "text/plain",
         ),
         (
             "audio",
-            "/home/oye/Documents/dailyYGStories/A Family Secret Almost Ruined My Wedding—Am I Wrong for Excluding My Brother?.mp3",
+            "/home/oye/Downloads/2d-animation-v1/example/story/breakup.mp3",
             "application/octet-stream",
         ),
     ]
 
-    GOOGLE_API_KEY = "AIzaSyCpzGmA1jU2601Nyg1hMDposu_8WHYBdQY"
+    GOOGLE_API_KEY = ""
 
     # Initialize the TextAnalyzer class
     analyzer = TextAnalyzer(api_key=GOOGLE_API_KEY)

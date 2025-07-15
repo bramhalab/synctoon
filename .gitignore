@@ -75,7 +75,7 @@ docs/_build/
 .pybuilder/
 target/
 core/video_frames/*.png
-core/videos/*
+core/videos/*.avi
 # Jupyter Notebook
 .ipynb_checkpoints
 
