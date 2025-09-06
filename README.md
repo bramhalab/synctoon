@@ -1,54 +1,92 @@
-# How to Run the 2D Animation Software
+# 2D Animation Software
 
-Follow these steps to generate an animation video from your script and audio:
+This project automatically creates a 2D animation video from a text script and a corresponding audio file.
 
-## 1. Start Docker Services
+## Quick Start: How to Create Your Animation
 
-Open a terminal and navigate to the `Docker` folder:
+Follow these steps to easily create your animation video.
 
-```sh
-cd Docker
-docker-compose up
-```
+### Step 1: Install Python Dependencies
 
-## 2. Prepare Your Input Files
-
-Place your `.mp3` (audio) and `.txt` (script) files in the `example/story/` folder. You can use the provided examples or add your own files.
-
-**Important:** In the same folder, add your Gemini API key as required by the application.
-
-## 3. Run the Core Script
-
-Navigate to the `core` folder and run the main script:
+First, install the required Python packages:
 
 ```sh
-cd ../core
-python core.py
+pip install -r requirements.txt
 ```
 
-This will process your input files and generate a CSV file for frame creation.
+### Step 2: Start the Application
 
-## 4. Generate Animation Frames
+Run Docker to set up the necessary services:
 
-Run the frame generator script to create all animation frames:
+1. Open a terminal and navigate to the `Docker` folder:
+   ```sh
+   cd Docker
+   ```
+2. Start the services:
+   ```sh
+   docker-compose up
+   ```
+   Leave this terminal running in the background.
+
+### Step 3: Add Your Gemini API Key
+
+1. Open the `core/core.py` file in a text editor
+2. Find the line with `GOOGLE_API_KEY = "..."` 
+3. Replace the existing key with your own Gemini API key:
+   ```python
+   GOOGLE_API_KEY = "your_actual_gemini_api_key_here"
+   ```
+4. Save the file
+
+### Step 4: Prepare Your Story Files (Optional)
+
+The project includes example files you can use for testing:
+- `example/story/breakup.txt` (script)
+- `example/story/breakup.mp3` (audio)
+
+You can also add your own `.txt` (script) and `.mp3` (audio) files to the `example/story/` folder.
+
+### Step 5: Run the Animation Script
+
+Now you can create the video with a single command:
+
+1. Open a **new** terminal
+2. Navigate to the `core` folder:
+   ```sh
+   cd core
+   ```
+3. Run the master script:
+   ```sh
+   python create_animation.py
+   ```
+
+### Step 6: Combine Video with Audio
+
+After the script completes, you will have:
+- Video file (without audio): `core/videos/your_video.mp4`
+- Original audio file: `example/story/your_audio.mp3`
+
+**Important**: The generated video does not include audio. You need to use a video editor (like OpenShot, DaVinci Resolve, or ffmpeg) to combine the video and audio files. Both files are perfectly aligned and should sync correctly.
+
+Using ffmpeg command line:
+```sh
+ffmpeg -i core/videos/your_video.mp4 -i example/story/your_audio.mp3 -c:v copy -c:a aac final_video_with_audio.mp4
+```
+
+### (Optional) Custom Video Name
+
+To give your video a specific name, use the `-n` or `--name` flag:
 
 ```sh
-python frame_generator.py
+python create_animation.py -n "my_first_animation"
 ```
-
-## 5. Combine Frames into a Video
-
-Finally, run the following script to combine all frames into a video file:
-
-```sh
-python frame_to_video.py
-```
-
-The output video will be saved in the appropriate output directory.
 
 ---
 
-For more details, see the example files in `example/story/` and refer to the comments in each script.
+## For Developers
+
+If you want to contribute to the project, understand the code, or debug issues, please refer to our [**DEVELOPER_GUIDE.md**](DEVELOPER_GUIDE.md).
+
 # 2D Animation V1
 
 ## Description
