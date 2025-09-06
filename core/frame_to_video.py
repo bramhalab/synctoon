@@ -19,46 +19,56 @@ frame_data = json.load(frame_data)
 
 
 def convert_frames_to_video(pathIn, pathOut, fps):
-    frame_array = []
-
-    # Get a list of PNG files from the directory
-    files = [
-        f for f in os.listdir(pathIn) if isfile(join(pathIn, f)) and f.endswith(".png")
-    ]
-
-    # Sort files based on the number in the filename (if applicable)
-    files.sort()
-
-    # Load the first image to get video dimensions
-    first_frame = pathIn + files[0]
-    img = cv2.imread(first_frame)
-
-    if img is None:
-        print(f"Error: Unable to read the image {first_frame}")
-        return
-
-    height, width, layers = img.shape
-    size = (width, height)
-
-    # Create VideoWriter object
-    out = cv2.VideoWriter(pathOut, cv2.VideoWriter_fourcc(*"DIVX"), fps, size)
-
-    # Iterate over the frame keys from the frame_data JSON
-    for counter in range(len(frame_data["frame_key"])):
-        filename = pathIn + frame_data["frame_key"][str(counter)] + ".png"
-        img = cv2.imread(filename)
+    """
+    Optimized OpenCV method with better codec and settings
+    """
+    try:
+        # Load the first image to get video dimensions
+        first_frame_key = frame_data["frame_key"]["0"]
+        first_frame_path = pathIn + first_frame_key + ".png"
+        img = cv2.imread(first_frame_path)
 
         if img is None:
-            print(f"Error: Unable to read the image {filename}")
-            continue
+            print(f"Error: Unable to read the image {first_frame_path}")
+            return False
 
-        print(counter, " : ", filename)
+        height, width, layers = img.shape
+        size = (width, height)
 
-        # Write the image frame to the video
-        out.write(img)
+        # Use H.264 codec for better compression and quality
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # or 'H264' if available
+        out = cv2.VideoWriter(pathOut, fourcc, fps, size)
 
-    out.release()
-    print(f"Video saved to {pathOut}")
+        if not out.isOpened():
+            print("Error: VideoWriter could not be opened")
+            return False
+
+        # Process frames in order using frame_data
+        total_frames = len(frame_data["frame_key"])
+        print(f"Creating video with {total_frames} frames...")
+
+        for counter in range(total_frames):
+            filename = pathIn + frame_data["frame_key"][str(counter)] + ".png"
+            img = cv2.imread(filename)
+
+            if img is None:
+                print(f"Error: Unable to read the image {filename}")
+                continue
+
+            if counter % 100 == 0:  # Progress indicator every 100 frames
+                print(
+                    f"Processing frame {counter}/{total_frames} ({(counter/total_frames)*100:.1f}%)"
+                )
+
+            out.write(img)
+
+        out.release()
+        print(f"Video successfully saved to {pathOut}")
+        return True
+
+    except Exception as e:
+        print(f"OpenCV method failed: {e}")
+        return False
 
 
 def main():
@@ -69,11 +79,11 @@ def main():
     args = parser.parse_args()
 
     if args.name:
-        pathOut = f"./videos/{args.name}.avi"
+        pathOut = f"./videos/{args.name}.mp4"
         name = args.name
     else:
         today = datetime.now()
-        pathOut = f"./videos/{str(today)}.avi"
+        pathOut = f"./videos/{str(today)}.mp4"
         name = today
 
     print(f"Creating video with file name: {name}")

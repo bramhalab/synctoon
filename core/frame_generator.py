@@ -9,9 +9,7 @@ import numpy as np
 
 # Assuming manager is defined and contains the get_character method
 # Replace manager.get_character with your own method to load character images
-base_path = (
-    "./images/characters"
-)
+base_path = "./images/characters"
 metadata_file = "./images/metadata/metadata.json"
 manager = CharacterManager(base_path, metadata_file)
 frame_data = {"key_counter": {}, "frame_key": {}}
@@ -56,26 +54,35 @@ def save_frames_from_csv(csv_file):
                 + str(zoom)
                 + str(blink)
             )
-            # Retrieve image and metadata using manager.get_character
+            # Check if image already exists in video_frames folder
+            image_file = f"video_frames/{key}.png"
+
             if key not in frame_data["key_counter"]:
                 frame_data["key_counter"][key] = 1
-                image, metadata = manager.get_character(
-                    Character=character,
-                    Emotion=emotion,
-                    Body=body,
-                    Head_Direction=head_direction,
-                    Eyes_Direction=eyes_direction,
-                    Background=background,
-                    Mouth_Emotion=mouth_emotion,
-                    Mouth_Name=mouth_name,
-                    zoom=zoom,
-                    blink=blink,
-                )
 
-                # Save the image for the current frame
-                image_file = f"video_frames/{key}.png"
-                image.save(image_file)
-                print(f"Frame {counter} saved as {image_file}")
+                # Check if image file already exists
+                if os.path.exists(image_file):
+                    print(
+                        f"Frame {counter} - Image {image_file} already exists, using existing image"
+                    )
+                else:
+                    # Retrieve image and metadata using manager.get_character
+                    image, metadata = manager.get_character(
+                        Character=character,
+                        Emotion=emotion,
+                        Body=body,
+                        Head_Direction=head_direction,
+                        Eyes_Direction=eyes_direction,
+                        Background=background,
+                        Mouth_Emotion=mouth_emotion,
+                        Mouth_Name=mouth_name,
+                        zoom=zoom,
+                        blink=blink,
+                    )
+
+                    # Save the image for the current frame
+                    image.save(image_file)
+                    print(f"Frame {counter} saved as {image_file}")
             else:
                 frame_data["key_counter"][key] = frame_data["key_counter"][key] + 1
             frame_data["frame_key"][counter] = key
