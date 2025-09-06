@@ -1,3 +1,54 @@
+# How to Run the 2D Animation Software
+
+Follow these steps to generate an animation video from your script and audio:
+
+## 1. Start Docker Services
+
+Open a terminal and navigate to the `Docker` folder:
+
+```sh
+cd Docker
+docker-compose up
+```
+
+## 2. Prepare Your Input Files
+
+Place your `.mp3` (audio) and `.txt` (script) files in the `example/story/` folder. You can use the provided examples or add your own files.
+
+**Important:** In the same folder, add your Gemini API key as required by the application.
+
+## 3. Run the Core Script
+
+Navigate to the `core` folder and run the main script:
+
+```sh
+cd ../core
+python core.py
+```
+
+This will process your input files and generate a CSV file for frame creation.
+
+## 4. Generate Animation Frames
+
+Run the frame generator script to create all animation frames:
+
+```sh
+python frame_generator.py
+```
+
+## 5. Combine Frames into a Video
+
+Finally, run the following script to combine all frames into a video file:
+
+```sh
+python frame_to_video.py
+```
+
+The output video will be saved in the appropriate output directory.
+
+---
+
+For more details, see the example files in `example/story/` and refer to the comments in each script.
 # 2D Animation V1
 
 ## Description
