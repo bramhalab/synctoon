@@ -96,5 +96,10 @@ def save_frames_from_csv(csv_file):
         json.dump(frame_data, outfile)
 
 
-# Example usage
-save_frames_from_csv("video_frames_info.csv")
+def main():
+    """Main function to run frame generation."""
+    save_frames_from_csv("video_frames_info.csv")
+
+
+if __name__ == "__main__":
+    main()
