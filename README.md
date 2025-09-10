@@ -1,230 +1,162 @@
-# 2D Animation Software
+# synctoon 🎬
 
-This project automatically creates a 2D animation video from a text script and a corresponding audio file.
+[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Automate-Animation/synctoon.svg)](https://github.com/Automate-Animation/synctoon/stargazers)
 
-## Quick Start: How to Create Your Animation
+**Synctoon** is a powerful, AI-driven 2D animation tool that automatically creates engaging animated videos from text scripts and audio files. Transform your stories into professional-looking animations with synchronized lip movements, dynamic character expressions, and intelligent scene composition.
 
-Follow these steps to easily create your animation video.
+## 🌟 See It In Action
 
-### Step 1: Install Python Dependencies
+Check out animations created with synctoon on our YouTube channel: [**Daily YG Stories**](https://www.youtube.com/@DailyYGStories)
 
-First, install the required Python packages:
+## ✨ Features
 
-```sh
-pip install -r requirements.txt
-```
+- 🤖 **AI-Powered Animation**: Leverages Google Generative AI for intelligent text analysis and animation cue extraction
+- 🎭 **Automatic Lip Sync**: Generates phoneme data to synchronize character mouth movements with dialogue
+- 👁️ **Dynamic Character Expressions**: Supports head movements, eye expressions, and body language
+- 🎨 **Multi-Character Support**: Handle multiple characters with distinct visual assets and personalities
+- 🎵 **Audio Synchronization**: Perfectly aligns animation with audio timing using transcription services
+- 🖼️ **Extensible Asset System**: Easy-to-use character and background asset management
+- 📹 **Frame-by-Frame Generation**: Creates smooth animations by compositing individual frames
+- 🔄 **Automated Workflow**: Complete pipeline from script to final video
 
-### Step 2: Start the Application
-
-Run Docker to set up the necessary services:
-
-1. Open a terminal and navigate to the `Docker` folder:
-   ```sh
-   cd Docker
-   ```
-2. Start the services:
-   ```sh
-   docker-compose up
-   ```
-   Leave this terminal running in the background.
-
-### Step 3: Add Your Gemini API Key
-
-1. Open the `core/core.py` file in a text editor
-2. Find the line with `GOOGLE_API_KEY = "..."` 
-3. Replace the existing key with your own Gemini API key:
-   ```python
-   GOOGLE_API_KEY = "your_actual_gemini_api_key_here"
-   ```
-4. Save the file
-
-### Step 4: Prepare Your Story Files (Optional)
-
-The project includes example files you can use for testing:
-- `example/story/breakup.txt` (script)
-- `example/story/breakup.mp3` (audio)
-
-You can also add your own `.txt` (script) and `.mp3` (audio) files to the `example/story/` folder.
-
-### Step 5: Run the Animation Script
-
-Now you can create the video with a single command:
-
-1. Open a **new** terminal
-2. Navigate to the `core` folder:
-   ```sh
-   cd core
-   ```
-3. Run the master script:
-   ```sh
-   python create_animation.py
-   ```
-
-### Step 6: Combine Video with Audio
-
-After the script completes, you will have:
-- Video file (without audio): `core/videos/your_video.mp4`
-- Original audio file: `example/story/your_audio.mp3`
-
-**Important**: The generated video does not include audio. You need to use a video editor (like OpenShot, DaVinci Resolve, or ffmpeg) to combine the video and audio files. Both files are perfectly aligned and should sync correctly.
-
-Using ffmpeg command line:
-```sh
-ffmpeg -i core/videos/your_video.mp4 -i example/story/your_audio.mp3 -c:v copy -c:a aac final_video_with_audio.mp4
-```
-
-### (Optional) Custom Video Name
-
-To give your video a specific name, use the `-n` or `--name` flag:
-
-```sh
-python create_animation.py -n "my_first_animation"
-```
-
----
-
-## For Developers
-
-If you want to contribute to the project, understand the code, or debug issues, please refer to our [**DEVELOPER_GUIDE.md**](DEVELOPER_GUIDE.md).
-
-# 2D Animation V1
-
-## Description
-
-2D Animation V1 is a Python-based automated animation tool that generates 2D animated videos from text scripts and corresponding audio files. It leverages AI for text analysis to extract animation cues and synchronizes character lip movements with the provided audio. The system composites character assets (heads, eyes, mouths, bodies) onto backgrounds to create individual animation frames, which are then compiled into a video.
-
-## Features
-
-*   **Automated Animation:** Generates 2D animations from script and audio inputs.
-*   **AI-Powered Text Analysis:** Uses Google Generative AI to interpret text for animation cues such as:
-    *   Head and eye movements
-    *   Character emotions and body actions
-    *   Dialogue attribution
-    *   Camera instructions (zoom, screen mode).
-*   **Audio Synchronization:** Transcribes audio and aligns it with the text script for timing.
-*   **Lip Sync:** Generates phoneme data to synchronize character mouth movements with dialogue.
-*   **Character Asset Management:** Dynamically loads and composites character image assets (PNGs) based on script cues.
-*   **Frame-by-Frame Generation:** Creates individual animation frames by layering character parts and backgrounds.
-*   **Video Compilation:** Compiles generated frames into a video file (AVI format).
-*   **Extensible Character System:** Supports multiple characters and customizable assets (moods, body parts, etc.) through a structured image directory and metadata.
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-*   Python 3.x
-*   Docker (for the Gentle transcription service)
-*   Pip (Python package installer)
+- Python 3.x
+- Docker (for audio transcription service)
+- Google API Key (for AI text analysis)
 
 ### Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd 2d-animation-v1
-    ```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Automate-Animation/synctoon.git
+   cd synctoon
+   ```
 
-2.  **Install Python dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3.  **Set up and run the Gentle transcription service:**
-    The Gentle service is used for audio transcription and alignment. It runs in a Docker container.
-    ```bash
-    cd Docker
-    docker-compose up -d
-    ```
-    This will start the Gentle service, typically available at `http://localhost:49153`.
+3. **Start the transcription service:**
+   ```bash
+   cd Docker
+   docker-compose up -d
+   ```
 
-4.  **Google API Key:**
-    The project uses Google Generative AI for text analysis. You will need to obtain a Google API key and configure it.
-    *   In `core/core.py`, update the `GOOGLE_API_KEY` variable with your actual key:
-        ```python
-        GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
-        ```
+4. **Configure your API key:**
+   - Open `core/core.py`
+   - Replace `GOOGLE_API_KEY = "..."` with your actual Google API key
 
-### Project Structure
+### Create Your First Animation
 
-*   `core/`: Contains the main logic for the animation generation.
-    *   `core.py`: Orchestrates the entire animation generation pipeline.
-    *   `brain_requests/`: Handles interactions with AI services (transcription, text analysis).
-    *   `image_manager/`: Manages character image assets.
-        *   `CharacterManager.py`: Loads, composites, and manages character parts.
-    *   `images/`: Stores character assets and metadata.
-        *   `characters/`: Contains subdirectories for each character and their respective image parts (body, eyes, head, mouth).
-        *   `metadata/metadata.json`: Defines properties and positions for character assets.
-    *   `utils/`: Utility scripts for various tasks (phoneme generation, asset updates).
-    *   `frame_generator.py`: Generates individual animation frames as PNG images.
-    *   `frame_to_video.py`: Compiles PNG frames into a video file.
-*   `Docker/`: Contains Docker configuration for services like Gentle.
-    *   `docker-compose.yml`: Defines the Gentle service.
-*   `example/story/`: Contains example audio (.mp3, .m4a) and text (.txt) files.
-*   `Tasks/`: Contains text files describing development tasks.
-*   `video_frames/`: (Generated directory) Stores the individual PNG frames created during animation.
-*   `videos/`: (Generated directory) Stores the final output video files.
-*   `requirements.txt`: Lists Python dependencies.
-*   `LICENSE`: Project license file.
-*   `README.md`: This file.
+1. **Prepare your story files** (or use the provided examples):
+   - Text script: `example/story/your_story.txt`
+   - Audio file: `example/story/your_story.mp3`
 
-## Usage
+2. **Generate the animation:**
+   ```bash
+   cd core
+   python create_animation.py -n "my_first_animation"
+   ```
 
-1.  **Prepare your inputs:**
-    *   Create a text script file (e.g., `my_story.txt`).
-    *   Create a corresponding audio file (e.g., `my_story.mp3`). Ensure the audio matches the script content for proper alignment.
+3. **Combine video with audio** (final step):
+   ```bash
+   ffmpeg -i videos/my_first_animation.mp4 -i ../example/story/your_story.mp3 -c:v copy -c:a aac final_animation.mp4
+   ```
 
-2.  **Configure `core/core.py`:**
-    *   Update the `files` variable in `core/core.py` to point to your script and audio files:
-        ```python
-        files = [
-            ("transcript", "path/to/your/my_story.txt", "text/plain"),
-            ("audio", "path/to/your/my_story.mp3", "application/octet-stream"),
-        ]
-        ```
-    *   Ensure `GOOGLE_API_KEY` is set.
+## 🎯 Vision & Mission
 
-3.  **Run the main script:**
-    ```bash
-    python core/core.py
-    ```
-    This will:
-    *   Process the audio and text.
-    *   Generate animation data (e.g., `output_test.json`, `video_frames_info.csv`).
-    *   Create individual frames in the `video_frames/` directory (this directory will be created if it doesn't exist).
-    *   Create `frameCreationInfo.json` in the root directory.
+**Our goal is to democratize animation creation.** We believe everyone should have access to powerful animation tools regardless of their technical background or budget. Synctoon is completely free and open-source, empowering storytellers, educators, content creators, and hobbyists to bring their ideas to life.
 
-4.  **Generate the video:**
-    After `core/core.py` has finished and the frames are generated, run the `frame_to_video.py` script:
-    ```bash
-    python core/frame_to_video.py --name my_animation_video
-    ```
-    *   Replace `my_animation_video` with your desired output video name.
-    *   The output video (e.g., `my_animation_video.avi`) will be saved in the `videos/` directory (this directory will be created if it doesn't exist).
+## 🗂️ Project Structure
 
-## Character Customization
+```
+synctoon/
+├── core/                          # Main animation engine
+│   ├── brain_requests/           # AI services integration
+│   ├── image_manager/            # Character asset management
+│   ├── images/                   # Character and background assets
+│   │   ├── characters/          # Character image components
+│   │   └── metadata/            # Asset positioning data
+│   ├── utils/                    # Utility functions
+│   ├── create_animation.py       # Main animation script
+│   ├── frame_generator.py        # Frame composition logic
+│   └── frame_to_video.py         # Video compilation
+├── example/story/                # Sample scripts and audio
+├── Docker/                       # Transcription service setup
+└── requirements.txt              # Python dependencies
+```
 
-To add or modify characters and their assets:
+## 🎨 Character Customization
 
-1.  **Create Character Directory:**
-    *   Add a new character folder under `core/images/characters/character_X/` (e.g., `core/images/characters/character_2/`).
-2.  **Add Asset Subdirectories:**
-    *   Inside your new character's folder, create subdirectories for different asset types: `body`, `eyes`, `head`, `mouth`, `background`.
-3.  **Populate Assets:**
-    *   Place your PNG image assets into the appropriate subdirectories.
-    *   For assets with variations (e.g., different emotions for eyes, different head directions), create further subdirectories or follow the naming conventions observed in existing character assets. For example, `eyes` can have subfolders like `happy`, `sad`, and these can have `*_blink` subfolders for blinking animations.
-4.  **Update Metadata:**
-    *   Edit `core/images/metadata/metadata.json`.
-    *   Add a new entry for your character and define the properties for each asset:
-        *   `position`: `[x, y]` coordinates for placing the asset.
-        *   `size`: `[width, height]` dimensions for the asset.
-        *   `zoom_point`: `[x,y]` coordinates for the center of a zoom operation.
-    *   Refer to the existing metadata structure for guidance.
+Synctoon supports extensive character customization:
 
-## Contributing
+1. **Add new characters** in `core/images/characters/character_X/`
+2. **Organize assets** into folders: `body/`, `eyes/`, `head/`, `mouth/`, `background/`
+3. **Configure positioning** in `metadata/metadata.json`
+4. **Support for emotions** and expressions through asset variations
 
-Contributions are welcome! Please feel free to submit pull requests or open issues.
-(Further details can be added here, e.g., coding style, testing procedures.)
+## 🔮 Future Roadmap
 
-## License
+We're actively working on exciting new features:
 
-This project is licensed under the terms of the LICENSE file.
+- 🖼️ **Dynamic Background Elements**: Add contextual images, doodles, and visual elements that enhance storytelling
+- 🌄 **Real-time Background Generation**: AI-powered background creation that adapts to story context
+- 🎭 **Enhanced Character Library**: Expanded collection of characters, emotions, and animations
+- 🎨 **Visual Effects System**: Particle effects, transitions, and cinematic elements
+- 📱 **Web Interface**: Browser-based animation creation tool
+- 🌍 **Multi-language Support**: International language and voice support
+- 🤝 **Community Asset Marketplace**: Share and discover character assets and backgrounds
+
+## 👨‍💻 Connect With The Creator
+
+**Muhammad Kamal** - Creator & Lead Developer
+
+- 🌐 **Portfolio**: [oyekamal.github.io/oykamal](https://oyekamal.github.io/oykamal/)
+- 📸 **Instagram**: [@oykamal](https://instagram.com/oykamal)
+- 💼 **LinkedIn**: [muhammad-kamal-025600121](https://linkedin.com/in/muhammad-kamal-025600121)
+- 🐦 **Twitter**: [@oykamal](https://twitter.com/oykamal)
+- 📺 **YouTube**: [@oykamal](https://youtube.com/@oykamal)
+
+📍 **Location**: Pakistan (UTC -12:00)
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Whether you're a developer, designer, or storyteller, there are many ways to help:
+
+- 🐛 **Report bugs** and suggest features
+- 💻 **Submit code** improvements and new features
+- 🎨 **Create and share** character assets
+- 📖 **Improve documentation** and tutorials
+- 🌟 **Star the repository** to show your support
+
+### For Developers
+
+If you want to contribute code or understand the technical implementation details, please check our comprehensive **[Developer Guide](DEVELOPER.md)** which includes:
+
+- 🏗️ **Architecture Overview**: Complete system design and data flow
+- 🔧 **Code Structure**: Detailed breakdown of all components
+- 🧪 **Testing Guidelines**: How to write and run tests
+- 🚀 **Development Setup**: Local development environment setup
+- 📊 **API Documentation**: Integration details and examples
+- 🐛 **Troubleshooting**: Common issues and solutions
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Google Generative AI for text analysis capabilities
+- Gentle for audio transcription and alignment
+- The open-source community for inspiration and support
+
+---
+
+**Made with ❤️ for the global storytelling community**
+
