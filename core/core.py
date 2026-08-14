@@ -1,4 +1,4 @@
-from brain_requests.speach_aligner import TranscriptionService
+from brain_requests.whisperx_aligner import WhisperXTranscriptionService as TranscriptionService
 from brain_requests.text_aligner import TextAnalyzer
 from brain_requests.utils import update_values
 import json
