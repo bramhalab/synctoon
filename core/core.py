@@ -9,35 +9,34 @@ from utils.update_character_asset_name import update_assets
 from utils.frame_info_generator import video_frames_info
 
 if __name__ == "__main__":
-    url = "http://localhost:49153/transcriptions?async=false"
+    import argparse
+    import os
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--audio", required=True, help="Voiceover audio file path")
+    parser.add_argument("--transcript", required=True, help="Exact spoken script, .txt file")
+    parser.add_argument("--gemini-key", default=os.environ.get("GEMINI_API_KEY", ""))
+    args = parser.parse_args()
+
     files = [
-        (
-            "transcript",
-            "/home/oye/Downloads/2d-animation-v1/example/story/breakup.txt",
-            "text/plain",
-        ),
-        (
-            "audio",
-            "/home/oye/Downloads/2d-animation-v1/example/story/breakup.mp3",
-            "application/octet-stream",
-        ),
+        ("transcript", args.transcript, "text/plain"),
+        ("audio", args.audio, "application/octet-stream"),
     ]
 
-    GOOGLE_API_KEY = ""
-
-    # Initialize the TextAnalyzer class
+    GOOGLE_API_KEY = args.gemini_key
     analyzer = TextAnalyzer(api_key=GOOGLE_API_KEY)
 
     service = TranscriptionService(files=files)
     response_json = service.send_request()
     transcript = response_json["transcript"]
+
     head_movement = analyzer.get_head_movement_instructions(transcript)
     time.sleep(6)
     eyes_movement = analyzer.get_eyes_movement_instructions(transcript)
     time.sleep(6)
     character = analyzer.get_character(transcript, characters)
     time.sleep(6)
-    emotions = analyzer.get_emotion(transcript, emotions)
+    emotions_result = analyzer.get_emotion(transcript, emotions)
     time.sleep(6)
     body_action = analyzer.get_body_action(transcript, body_actions)
     time.sleep(6)
@@ -45,18 +44,17 @@ if __name__ == "__main__":
     time.sleep(6)
     zoom = analyzer.get_zoom(transcript)
     time.sleep(6)
-    screen_mode = analyzer.get_screen_mode(transcript, screen_mode)
+    screen_mode_result = analyzer.get_screen_mode(transcript, screen_mode)
 
     update_values(response_json, head_movement, "head_direction", "M")
     update_values(response_json, eyes_movement, "eyes_direction", "M")
     update_values(response_json, character, "character", 1)
-    update_values(response_json, emotions, "emotion", 1)
+    update_values(response_json, emotions_result, "emotion", 1)
     update_values(response_json, body_action, "body_action", 3)
     update_values(response_json, intensity, "intensity", 1)
     update_values(response_json, zoom, "zoom", 0)
-    update_values(response_json, screen_mode, "screen_mode", 1)
+    update_values(response_json, screen_mode_result, "screen_mode", 1)
 
-    # add Phonemes and Frames
     add_phonemes(response_json)
     update_assets(response_json)
     video_frames_info(response_json)
